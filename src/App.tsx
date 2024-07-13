@@ -1,8 +1,8 @@
 function App() {
   return (
-    <>
-      Hola mundo
-    </>
+    <header>
+      Dashboard
+    </header>
   )
 }
 
