@@ -6,7 +6,7 @@ function App() {
     <main>
         <Header />
         <Layout>
-          {/* TODO */}
+          TODO
         </Layout>
     </main>
   )
