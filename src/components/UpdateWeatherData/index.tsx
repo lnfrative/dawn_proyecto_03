@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react"
-import { useMainStore } from "../../hooks"
+import { useMainStore, useStoreDispatch } from "../../hooks"
 import { openWeatherMap } from "../../constants"
 import { Backdrop, CircularProgress } from "@mui/material"
-import { setWeatherXmlData } from "../../store/main"
+import { setWeatherData } from "../../store/main"
 
 function UpdateWeatherData() {
   const mainStore = useMainStore()
+  const dispatch = useStoreDispatch()
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    if (mainStore.weatherQuery) {
       setLoading(true)
       const url = new URL(openWeatherMap.forecastEndpoint)
 
       url.searchParams.append('appid', openWeatherMap.apiKey)
-      url.searchParams.append('q', mainStore.weatherQuery)
-      url.searchParams.append('mode', 'xml')
+      url.searchParams.append('q', mainStore.weatherQuery || 'Guayaquil')
+      url.searchParams.append('mode', 'json')
       url.searchParams.append('units', 'metric')
       url.searchParams.append('lang', 'es')
     
@@ -25,11 +25,10 @@ function UpdateWeatherData() {
           throw new Error(`Error HTTP! status: ${response.status}`)
         }
 
-        return response.text()
+        return response.json()
       })
-      .then((xmlText) => setWeatherXmlData(xmlText))
+      .then((data) => dispatch(setWeatherData(data)))
       .finally(() => setLoading(false))
-    }
   }, [mainStore.weatherQuery])
 
   return (

@@ -1,3 +1,4 @@
+import Dashboard from "./components/Dashboard"
 import Header from "./components/Header"
 import Layout from "./components/Layout"
 import StoreProvider from "./components/StoreProvider"
@@ -9,9 +10,7 @@ function App() {
       <main>
         <Header />
         <Layout>
-          
-          {/* TODO */}
-
+          <Dashboard />
         </Layout>
         <UpdateWeatherData />
       </main>
