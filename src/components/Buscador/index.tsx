@@ -20,6 +20,7 @@ function Buscador() {
     >
       <InputBase
         name="input_search"
+        placeholder="Nombre de ciudad (e.g., Quito)"
         fullWidth
         sx={{
           background: 'white',
