@@ -7,7 +7,7 @@ export interface State {
 
 export const initialState: State = {
     weatherQuery: '',
-    weatherData: false
+    weatherData: {}
 }
 
 const mainSlice = createSlice({

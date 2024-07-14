@@ -3,12 +3,34 @@ import { useMainStore } from "../../hooks"
 import { convertTimestampToTime, filterObjectsWithinNext24Hours, formatNumberWithDots, getTimeZoneFromSeconds } from "../../util"
 import { openWeatherMap } from "../../constants"
 import ChartLine from "../ChartLine"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 
 function Dashboard() {
   const mainStore = useMainStore()
 
   const [forecastMainSelected, setForecastMainSelected] = useState(Object.keys(openWeatherMap.forecastMainTags)[0])
+
+  const averages24Hours = useMemo(() => {
+    if (mainStore.weatherData.cod !== '200') return {}
+    const sums: any = {}
+    const counts: any = {}
+
+    const weatherLast24Hours = filterObjectsWithinNext24Hours(mainStore.weatherData.list)
+
+    weatherLast24Hours.forEach(item => {
+      Object.keys(openWeatherMap.forecastMainTags).forEach(key => {
+        sums[key] = (sums[key] || 0) + item.main[key]
+        counts[key] = (counts[key] || 0) + 1
+      })
+    })
+
+    const averages: any = {}
+    Object.keys(sums).forEach(key => {
+      averages[key] = (sums[key] / counts[key]).toFixed(2)
+    })
+
+    return averages
+  }, [mainStore.weatherData])
 
   if (mainStore.weatherData.cod !== '200') return null
 
@@ -42,6 +64,7 @@ function Dashboard() {
         </div>
       </div>
 
+      <h3 className="font-bold">Clima de los próximos 5 días</h3>
       <div className="w-full bg-white border border-black/20 rounded-md py-10 my-6 px-3">
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Gráfico</InputLabel>
@@ -74,6 +97,7 @@ function Dashboard() {
         </div>
       </div>
 
+      <h3 className="font-bold">Clima de las próximas 24 horas</h3>
       <div className="w-full bg-white border border-black/20 rounded-md py-10 my-6 px-3">
         <TableContainer>
           <Table>
@@ -102,6 +126,35 @@ function Dashboard() {
                     <TableCell>{item.main.humidity}</TableCell>
                   </TableRow>
                 ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+
+      <h3 className="font-bold">Promedio de las próximas 24 horas</h3>
+      <div className="w-full bg-white border border-black/20 rounded-md py-10 my-6 px-3">
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell style={{ fontWeight: 'bold' }}>Promedio</TableCell>
+                {Object.keys(openWeatherMap.forecastMainTags).map((key) => (
+                  <TableCell key={key} style={{ fontWeight: 'bold' }}>{openWeatherMap.forecastMainTags[key]}</TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell></TableCell>
+                <TableCell>{averages24Hours.temp}</TableCell>
+                <TableCell>{averages24Hours.feels_like}</TableCell>
+                <TableCell>{averages24Hours.temp_min}</TableCell>
+                <TableCell>{averages24Hours.temp_max}</TableCell>
+                <TableCell>{averages24Hours.pressure}</TableCell>
+                <TableCell>{averages24Hours.sea_level}</TableCell>
+                <TableCell>{averages24Hours.grnd_level}</TableCell>
+                <TableCell>{averages24Hours.humidity}</TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
