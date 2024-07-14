@@ -7,7 +7,7 @@ function Header() {
     <header className="relative bg-[#2b2d42] h-[50px] w-full text-white grid grid-cols-12 px-3">
       <div className="flex sm:ml-3 items-center col-span-6 lg:col-span-2 2xl:col-span-3">
         <h1>
-          Dashboard
+          Clima
         </h1>
       </div>
 
