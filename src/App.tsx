@@ -1,14 +1,17 @@
 import Header from "./components/Header"
 import Layout from "./components/Layout"
+import { StoreProvider } from "./components/StoreProvider"
 
 function App() {
   return (
-    <main>
+    <StoreProvider>
+      <main>
         <Header />
         <Layout>
           TODO
         </Layout>
-    </main>
+      </main>
+    </StoreProvider>
   )
 }
 

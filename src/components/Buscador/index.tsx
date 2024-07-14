@@ -1,9 +1,25 @@
 import { Button, InputBase } from "@mui/material"
+import { useStoreDispatch } from "../../hooks"
+import { setWeatherQuery } from "../../store/main"
 
 function Buscador() {
+  const dispatch = useStoreDispatch()
   return (
-    <form className="flex flex-1">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        const formData = new FormData(e.currentTarget)
+        
+        const inputSearch = formData.get('input_search')?.toString()
+
+        if (inputSearch) {
+          dispatch(setWeatherQuery(inputSearch))
+        }
+      }}
+      className="flex flex-1"  
+    >
       <InputBase
+        name="input_search"
         fullWidth
         sx={{
           background: 'white',
@@ -12,7 +28,7 @@ function Buscador() {
           marginRight: 1,
         }}
       />
-      <Button variant="contained">Buscar</Button>
+      <Button type="submit" variant="contained">Buscar</Button>
     </form>
   )
 }
