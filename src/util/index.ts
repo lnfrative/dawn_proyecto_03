@@ -25,9 +25,24 @@ export function formatNumberWithDots(num: number): string {
 }
 
 export function convertTimestampToTime(timestamp: number, timezoneOffset: number): string {
-  const date = new Date((timestamp + timezoneOffset) * 1000); // Aplicar la zona horaria al timestamp
+  const date = new Date((timestamp + timezoneOffset) * 1000);
   const hours = date.getUTCHours().toString().padStart(2, '0');
   const minutes = date.getUTCMinutes().toString().padStart(2, '0');
   const seconds = date.getUTCSeconds().toString().padStart(2, '0');
   return `${hours}:${minutes}:${seconds}`;
+}
+
+interface DataObject {
+  dt_txt: string;
+  [key: string]: any; // Permite otras claves en el objeto
+}
+
+export function filterObjectsWithinNext24Hours(data: DataObject[]): DataObject[] {
+  const now = new Date();
+  const next24Hours = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+
+  return data.filter(obj => {
+    const date = new Date(obj.dt_txt);
+    return date > now && date <= next24Hours;
+  });
 }
