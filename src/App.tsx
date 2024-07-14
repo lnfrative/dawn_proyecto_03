@@ -1,6 +1,7 @@
 import Header from "./components/Header"
 import Layout from "./components/Layout"
-import { StoreProvider } from "./components/StoreProvider"
+import StoreProvider from "./components/StoreProvider"
+import UpdateWeatherData from "./components/UpdateWeatherData"
 
 function App() {
   return (
@@ -8,8 +9,11 @@ function App() {
       <main>
         <Header />
         <Layout>
-          TODO
+          
+          {/* TODO */}
+
         </Layout>
+        <UpdateWeatherData />
       </main>
     </StoreProvider>
   )

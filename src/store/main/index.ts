@@ -2,10 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface State {
     weatherQuery: string
+    weatherXmlData: string
 }
 
 export const initialState: State = {
-    weatherQuery: ''
+    weatherQuery: '',
+    weatherXmlData: ''
 }
 
 const mainSlice = createSlice({
@@ -14,13 +16,19 @@ const mainSlice = createSlice({
         setWeatherQuery: (state, action: PayloadAction<string>) => ({
             ...state,
             weatherQuery: action.payload,
-        })
+        }),
+
+        setWeatherXmlData: (state, action: PayloadAction<string>) => ({
+            ...state,
+            weatherXmlData: action.payload,
+        }),
     },
     initialState,
 })
 
 export const {
-    setWeatherQuery
+    setWeatherQuery,
+    setWeatherXmlData
 } = mainSlice.actions
 
 export default mainSlice.reducer
