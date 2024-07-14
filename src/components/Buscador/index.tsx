@@ -2,7 +2,7 @@ import { Button, InputBase } from "@mui/material"
 
 function Buscador() {
   return (
-    <form className="flex">
+    <form className="flex flex-1">
       <InputBase
         fullWidth
         sx={{
